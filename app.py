@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.register_blueprint(bins_api, url_prefix='/api/v1')
 
 
+
 @app.route('/')
 def hello_world():
     return render_template('map.html')

@@ -41,8 +41,11 @@ class Route(Model):
         except:
             raise Exception("Route already defined")
 
-
-
+            
+    
+  
+    
+  
 def initialize():
     DATABASE.connect()
     DATABASE.create_tables([SmartBin, Route], safe=True)

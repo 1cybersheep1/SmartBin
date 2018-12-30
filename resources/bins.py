@@ -5,7 +5,7 @@ from flask.ext.restful import Resource, Api
 
 class BinList(Resource):
     def get(self):
-        return jsonify({'bins': [{'lat': 39.091562, 'lon': -9.259275, 'percentage': 50}]})
+        return jsonify({'bins': [{'type':'interior','lat': 39.091562, 'lon': -9.259275, 'percentage': 50},{'type':'exterior','lat': 39.091800, 'lon': -9.259275, 'percentage': 50}]})
 
 
 bins_api = Blueprint('resources.bins', __name__)
