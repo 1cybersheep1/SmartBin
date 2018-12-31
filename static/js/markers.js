@@ -1,3 +1,5 @@
+var infoWindow = null;
+
 function updateMarkerSize(marker, map, config) {
   const zoom = map.getZoom();
   let newSize = config.markerInitalSize * Math.pow(config.markerScaleFactor, zoom-config.mapInitialZoom);
@@ -12,6 +14,9 @@ function updateMarkerSize(marker, map, config) {
 }
 
 function createBinMarkers(data, map, config) {
+  infoWindow =  new google.maps.InfoWindow({content: '' });
+  google.maps.event.addListener(map, "click", () => infoWindow.close());
+   
   const bins = data.bins
   const markers = [ ]
   bins.forEach( function(bin) {
@@ -26,15 +31,11 @@ function createBinMarkers(data, map, config) {
       position: new google.maps.LatLng(bin.lat, bin.lon),
       icon: image
     });
-    
-    var infowindow = new google.maps.InfoWindow({
-          content: generateInfoWindow(bin.id, bin.percentage, bin.type, bin.last_update)
-    });
-
         
-        newMarker.addListener('click', function () {
-          infowindow.open(map, newMarker);
-        });
+    newMarker.addListener('click', function () {
+      infoWindow.setContent(generateInfoWindow(bin.id, bin.percentage, bin.type, bin.last_update));
+      infoWindow.open(map, newMarker);
+    });
     
     google.maps.event.addListener(map, "zoom_changed", () => updateMarkerSize(newMarker, map, config));
     markers.push(newMarker)
@@ -50,12 +51,10 @@ function updateMarkers(oldData, newData, markers) {
   oldData.bins.forEach(function(bin, index) {
     if (bin.percentage !== newData.bins[index].percentage) {
       let bin = newData.bins[index];
-      var infowindow = new google.maps.InfoWindow({
-        content: generateInfoWindow(bin.id, bin.percentage, bin.type, bin.last_update)
-      });
       google.maps.event.clearListeners(markers[index], 'click');
       markers[index].addListener('click', function() {
-        infowindow.open(map, markers[index]);
+        infoWindow.setContent(generateInfoWindow(bin.id, bin.percentage, bin.type, bin.last_update));
+        infoWindow.open(map, markers[index]);
       });
     }
   });
