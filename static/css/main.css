@@ -1,0 +1,15 @@
+
+.progress {
+  background-color: #e5e9eb;
+  height: 1em;
+  position: relative;
+  width: 34em;
+  height: 2em;
+}
+.progress-bar {
+  animation-duration: 1.5s;
+  background-image: linear-gradient(to right, #41f44f,#41f44f, #41f44f,#f4f441,#f4f441, #f44242,#f44242,#f44242);
+  background-size: 34em 0.25em;
+  height: 100%;
+  position: relative;
+}

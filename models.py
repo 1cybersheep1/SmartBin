@@ -8,6 +8,7 @@ DATABASE = SqliteDatabase('database.db')
 
 
 class SmartBin(Model):
+    bin_type = CharField()
     percentage = IntegerField(default=0)
     latitude = DoubleField() # deviam de ser unicas
     longitude = DoubleField()
@@ -17,13 +18,13 @@ class SmartBin(Model):
         database = DATABASE
 
     @classmethod
-    def create_bin(cls, latitude, longitude):
+    def create_bin(cls, bin_type, latitude, longitude):
         try:
-            cls.select().where(cls.latitude==latitude, cls.longitude==longitude).get()
+            cls.select().where(cls.bin_type==bin_type, cls.latitude==latitude, cls.longitude==longitude).get()
         except cls.DoesNotExist:
-            return cls.create(latitude=latitude, longitude=longitude)
+            return cls.create(bin_type=bin_type, latitude=latitude, longitude=longitude)
         else:
-            raise Exception('Álready exists')
+            raise Exception('Bin already exists')
 
 
 class Route(Model):
